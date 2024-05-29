@@ -1,0 +1,28 @@
+{
+  "name": "pw-blip-poc",
+  "version": "1.0.0",
+  "description": "poc for blogpost",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server -c-1",
+    "testNoFixtures": "npx playwright test without-fixtures.spec.ts --project=chromium"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salgadob/pw-blip-poc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salgadob/pw-blip-poc/issues"
+  },
+  "homepage": "https://github.com/salgadob/pw-blip-poc#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.12.12",
+    "http-server": "^0.12.3",
+    "express": "4.19.2",
+    "request": "2.88.2"
+  }
+}
