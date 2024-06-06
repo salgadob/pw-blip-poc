@@ -3,11 +3,8 @@
  poc for blogpost 
 
 
-`npm run start` to start server
+`yarn run start` to start client & server
 
-`npm run serve` to run index.js
+`yarn run testNoFixtures` to run the no fixtures test
 
-`npm run testNoFixtures` to run the no fixtures test
-
-`npm run testFixtures` to run fixtures test
-
+`yarn run testFixtures` to run fixtures test

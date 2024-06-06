@@ -1,0 +1,12 @@
+{
+  "name": "regression",
+  "version": "1.0.0",
+  "description": "regression tests",
+  "scripts": {
+    "testNoFixtures": "npx playwright test without-fixtures.spec.ts --project=chromium",
+    "testFixtures": "npx playwright test with-fixtures.spec.ts --project=chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.44.1"
+  }
+}
