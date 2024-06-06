@@ -8,3 +8,5 @@ poc for blogpost
 
 `npm run testNoFixtures` to run the no fixtures test
 
+`npm run testFixtures` to run fixtures test
+
