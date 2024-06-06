@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "serve": "http-server -c-1",
-    "testNoFixtures": "npx playwright test without-fixtures.spec.ts --project=chromium"
+    "testNoFixtures": "npx playwright test without-fixtures.spec.ts --project=chromium",
+    "testFixtures": "npx playwright test with-fixtures.spec.ts --project=chromium"
   },
   "repository": {
     "type": "git",
