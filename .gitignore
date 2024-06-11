@@ -1,7 +1,9 @@
 # dependencies
 /node_modules
-/.yarn
-
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
 # testing
 /coverage
 /regression/test-results/
