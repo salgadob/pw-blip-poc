@@ -1,13 +1,13 @@
 # dependencies
 /node_modules
 /.yarn
+
+# testing
+/coverage
 /regression/test-results/
 /regression/playwright-report/
 /regression/blob-report/
 /regression/playwright/.cache/
-
-# testing
-/coverage
 
 # production
 /build

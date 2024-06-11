@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 // 3 scenarios - e2e, mock no results, mock 2 results
 
 test('end 2 end journey', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto('http://localhost:3000/library');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
@@ -19,7 +19,7 @@ test('end 2 end journey', async ({ page }) => {
 });
 
 test('scenario: no results', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto('http://localhost:3000/library');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
@@ -41,7 +41,7 @@ test('scenario: no results', async ({ page }) => {
 });
 
 test('scenario: 2 results', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto('http://localhost:3000/library');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
