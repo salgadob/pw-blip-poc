@@ -117,6 +117,11 @@ input:focus, textarea:focus {
     outline: none;
 }
 
+#authors {
+  font-size: x-small;
+  color:#505459
+}
+
 /* Footer styles */
 footer {
     margin-top: 20px;

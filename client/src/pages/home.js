@@ -21,7 +21,8 @@ const Home = () => {
     <div>
       <p>Welcome to Blip's library!</p>
       <p>We have books & movies available for renting. Pick what you like. </p>
-
+      <br></br>
+      <br></br>
       <h2 id='recently'>Recently added titles</h2>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         {books.map((book, index) => (
@@ -32,9 +33,11 @@ const Home = () => {
         ))}
       </div>
 
-      <Link to="/library">See all Books | </Link>
+      <Link to="/books">See all Books | </Link>
       <Link to="/movies"> See all Movies</Link>
+      <p id='authors'>created with ❤ by anabela & barbs</p>
     </div>
+      
   );
 };
 
