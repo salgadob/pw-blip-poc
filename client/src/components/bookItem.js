@@ -7,7 +7,8 @@ const BookItem = ({ book }) => {
       padding: '10px',
       margin: '10px',
       borderRadius: '5px',
-      backgroundColor: '#d9d2ce'
+      backgroundColor: '#dfe3e8',
+      fontFamily: "monospace"
     }}>
       <h5>{book.title}</h5>
       <p><strong>Author:</strong> {book.author}</p>

@@ -30,8 +30,6 @@ const Library = () => {
 
   return (
     <div>
-      <h2>Blip's Books</h2>
-
       {loading && <p>Loading...</p>}
       {error && <p className="no-books-error" style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && data && (
