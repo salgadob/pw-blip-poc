@@ -34,8 +34,6 @@ test('scenario: no results', async ({ page }) => {
     });
   });
 
-  await showBooksButton.click();
-
   await expect(noBooksMessage).toHaveText('No books available!')
 
 });
@@ -75,8 +73,6 @@ test('scenario: 2 results', async ({ page }) => {
   });
 
   await expect(page).toHaveTitle("Blip's Library");
-
-  await showBooksButton.click();
 
   await expect(bookList).toBeVisible();
 
