@@ -4,49 +4,45 @@ import { test, expect } from '@playwright/test';
 // 3 scenarios - e2e, mock no results, mock 2 results
 
 test('end 2 end journey', async ({ page }) => {
-  await page.goto('http://localhost:3000/library');
+  await page.goto('http://localhost:3000/books');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
   const books = page.getByTestId('books');
 
   await expect(page).toHaveTitle("Blip's Library");
-
-  await showBooksButton.click();
 
   await expect(bookList).toBeVisible();
 
 });
 
-test('scenario: no results', async ({ page }) => {
-  await page.goto('http://localhost:3000/library');
-
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
-  const noBooksMessage = page.locator('.no-books')
-
-  await expect(page).toHaveTitle("Blip's Library");
-
+test('scenario: no books available', async ({ page }) => {
+  // before navigating to website, we're going to mock our API with an empty books array
   await page.route('http://localhost:3001/api/books', (route) => {
     route.fulfill({
         body: JSON.stringify({ "books": [] }),
     });
   });
 
-  await showBooksButton.click();
+  // now we can navigate to website
+  await page.goto('http://localhost:3000/books');
 
+  // creating some constants to interact with elements
+  const showBooksButton = page.getByTestId('showBooksButton');
+  const bookList = page.getByTestId('bookListContainer');
+  const books = page.getByTestId('books');
+  const noBooksMessage = page.locator('.no-books')
+
+  // assert on page title
+  await expect(page).toHaveTitle("Blip's Library");
+
+  // assert on no books available message
   await expect(noBooksMessage).toHaveText('No books available!')
 
 });
 
 test('scenario: 2 results', async ({ page }) => {
-  await page.goto('http://localhost:3000/library');
-
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
-
+  // before navigating to website, we're going to mock our API with a response returning two books
   await page.route('http://localhost:3001/api/books', (route) => {
     route.fulfill({
         body: JSON.stringify({ "books": [{
@@ -74,12 +70,21 @@ test('scenario: 2 results', async ({ page }) => {
     });
   });
 
+  // now we can navigate to the books page
+  await page.goto('http://localhost:3000/books');
+
+  // creating some constants to interact with browser elements
+  const showBooksButton = page.getByTestId('showBooksButton');
+  const bookList = page.getByTestId('bookListContainer');
+  const books = page.getByTestId('books');
+
+  // assert on page title
   await expect(page).toHaveTitle("Blip's Library");
 
-  await showBooksButton.click();
-
+  // assert on books content 
   await expect(bookList).toBeVisible();
-
+  // compare booklist scresnhot to baseline
+  await bookList.screenshot({ path: 'booklist-2results.png' });
 });
 
 
