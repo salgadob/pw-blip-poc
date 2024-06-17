@@ -12,8 +12,6 @@ test('end 2 end journey', async ({ page }) => {
 
   await expect(page).toHaveTitle("Blip's Library");
 
-  await showBooksButton.click();
-
   await expect(bookList).toBeVisible();
 
 });
