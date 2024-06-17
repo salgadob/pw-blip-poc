@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 // 3 scenarios - e2e, mock no results, mock 2 results
 
 test('end 2 end journey', async ({ page }) => {
-  await page.goto('http://localhost:8080');
+  await page.goto('http://localhost:3000/books');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
@@ -12,14 +12,18 @@ test('end 2 end journey', async ({ page }) => {
 
   await expect(page).toHaveTitle("Blip's Library");
 
-  await showBooksButton.click();
-
   await expect(bookList).toBeVisible();
 
 });
 
 test('scenario: no results', async ({ page }) => {
-  await page.goto('http://localhost:8080');
+  await page.route('http://localhost:3001/api/books', (route) => {
+    route.fulfill({
+        body: JSON.stringify({ "books": [] }),
+    });
+  });
+  
+  await page.goto('http://localhost:3000/books');
 
   const showBooksButton = page.getByTestId('showBooksButton');
   const bookList = page.getByTestId('bookListContainer');
@@ -28,26 +32,13 @@ test('scenario: no results', async ({ page }) => {
 
   await expect(page).toHaveTitle("Blip's Library");
 
-  await page.route('http://localhost:3000/api/books', (route) => {
-    route.fulfill({
-        body: JSON.stringify({ "books": [] }),
-    });
-  });
-
-  await showBooksButton.click();
-
   await expect(noBooksMessage).toHaveText('No books available!')
 
 });
 
 test('scenario: 2 results', async ({ page }) => {
-  await page.goto('http://localhost:8080');
 
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
-
-  await page.route('http://localhost:3000/api/books', (route) => {
+  await page.route('http://localhost:3001/api/books', (route) => {
     route.fulfill({
         body: JSON.stringify({ "books": [{
           "isbn": "123",
@@ -74,9 +65,13 @@ test('scenario: 2 results', async ({ page }) => {
     });
   });
 
-  await expect(page).toHaveTitle("Blip's Library");
+  await page.goto('http://localhost:3000/books');
 
-  await showBooksButton.click();
+  const showBooksButton = page.getByTestId('showBooksButton');
+  const bookList = page.getByTestId('bookListContainer');
+  const books = page.getByTestId('books');
+
+  await expect(page).toHaveTitle("Blip's Library");
 
   await expect(bookList).toBeVisible();
 

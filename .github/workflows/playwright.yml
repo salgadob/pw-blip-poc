@@ -1,0 +1,89 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test-no-fixture:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Cache Yarn
+      uses: actions/cache@v2
+      with:
+        path: |
+          .yarn/cache
+          .yarn/plugins
+          .yarn/releases
+          node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Enable corepack
+      run: corepack enable
+    - name: Use Yarn 3
+      run: corepack prepare yarn@3.2.4 --activate
+    - name: Configure Yarn
+      run: yarn set version 3.2.4
+    - name: Import Workspace Tools Plugin
+      run: yarn plugin import workspace-tools
+    - name: Install dependencies
+      run: yarn install
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Start application
+      run: yarn start &
+    - name: Run Playwright tests No Fixture
+      run: yarn run testNoFixtures
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+  test-fixture:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Cache Yarn
+      uses: actions/cache@v2
+      with:
+        path: |
+          .yarn/cache
+          .yarn/plugins
+          .yarn/releases
+          node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Enable corepack
+      run: corepack enable
+    - name: Use Yarn 3
+      run: corepack prepare yarn@3.2.4 --activate
+    - name: Configure Yarn
+      run: yarn set version 3.2.4
+    - name: Import Workspace Tools Plugin
+      run: yarn plugin import workspace-tools
+    - name: Install dependencies
+      run: yarn install
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Start application
+      run: yarn start &
+    - name: Run Playwright tests Fixture
+      run: yarn run testFixtures
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30

@@ -1,15 +1,12 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # dependencies
 /node_modules
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-.pnp.*
+/.pnp
+.pnp.js
+
 # testing
 /coverage
-/regression/test-results/
-/regression/playwright-report/
-/regression/blob-report/
-/regression/playwright/.cache/
 
 # production
 /build
