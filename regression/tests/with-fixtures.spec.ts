@@ -17,6 +17,12 @@ test('end 2 end journey', async ({ page }) => {
 });
 
 test('scenario: no results', async ({ page }) => {
+  await page.route('http://localhost:3001/api/books', (route) => {
+    route.fulfill({
+        body: JSON.stringify({ "books": [] }),
+    });
+  });
+  
   await page.goto('http://localhost:3000/books');
 
   const showBooksButton = page.getByTestId('showBooksButton');
@@ -26,22 +32,11 @@ test('scenario: no results', async ({ page }) => {
 
   await expect(page).toHaveTitle("Blip's Library");
 
-  await page.route('http://localhost:3001/api/books', (route) => {
-    route.fulfill({
-        body: JSON.stringify({ "books": [] }),
-    });
-  });
-
   await expect(noBooksMessage).toHaveText('No books available!')
 
 });
 
 test('scenario: 2 results', async ({ page }) => {
-  await page.goto('http://localhost:3000/books');
-
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
 
   await page.route('http://localhost:3001/api/books', (route) => {
     route.fulfill({
@@ -69,6 +64,12 @@ test('scenario: 2 results', async ({ page }) => {
     }] }),
     });
   });
+
+  await page.goto('http://localhost:3000/books');
+
+  const showBooksButton = page.getByTestId('showBooksButton');
+  const bookList = page.getByTestId('bookListContainer');
+  const books = page.getByTestId('books');
 
   await expect(page).toHaveTitle("Blip's Library");
 
