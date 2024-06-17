@@ -7,22 +7,25 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1>Blip's Page</h1>
-
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/library">Library</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/library" element={<Library />} />
-        </Routes>
+        <header>
+          <h1>Blip's Library</h1>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Movies</Link>
+              </li>
+              <li>
+                <Link to="/library">Books</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/library" element={<Library />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
