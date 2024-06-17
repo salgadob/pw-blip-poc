@@ -83,10 +83,8 @@ test('scenario: 2 results', async ({ page }) => {
 
   // assert on books content 
   await expect(bookList).toBeVisible();
-
-  // todo: assert on books
-  // todo take screenshot
-
+  // compare booklist scresnhot to baseline
+  await bookList.screenshot({ path: 'booklist-2results.png' });
 });
 
 

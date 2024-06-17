@@ -3,7 +3,7 @@ import { Page, test as base } from '@playwright/test';
 import { PagePO } from '../page-objects/page.po';
 
 export type PageFixtures = {
-    WhenIOpenALibraryPage: PagePO;
+    WhenIOpenBooksPage: PagePO;
 };
 
 type PageProps = {
@@ -11,7 +11,7 @@ type PageProps = {
 };
 
 const test = base.extend<PageFixtures>({
-    WhenIOpenALibraryPage: async ({ page }: PageProps, use) => {
+    WhenIOpenBooksPage: async ({ page }: PageProps, use) => {
         const libraryPagePO = new PagePO(page); 
         await libraryPagePO.openPage();
         await use(libraryPagePO);
