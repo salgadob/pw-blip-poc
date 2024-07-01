@@ -1,54 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import BookItem from '../components/bookItem';
+import React from 'react';
+import Book from '../components/book/book';
+import { useData } from '../utils/utils';
+import Loading from '../components/loading/loading';
+import Error from '../components/error/error';
 
-const Library = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const SERVER = 'http://localhost:3001/api/books';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setData(null);
-      setError(null);
-      try {
-        const response = await fetch('http://localhost:3001/api/books');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        setData(result.books);
-      } catch (error) {
-        setError(error.toString());
-      } finally {
-        setLoading(false);
-      }
-    };
+const Books = () => {
+  const { data = {}, error, loading } = useData(SERVER);
+  
+  if(loading) return (<Loading />);
+  if (error) return (<Error message={error} />);
 
-    fetchData();
-  }, []);
-
+  const books = data.books || [];
   return (
     <div>
-      {loading && <p>Loading...</p>}
-      {error && <p className="no-books-error" style={{ color: 'red' }}>{error}</p>}
-      {!loading && !error && data && (
-        <div className="container book-list" id="bookListContainer" data-testid="bookListContainer">
-          <h3>Books available:</h3>
-          {!!data.length && (
-            <ul id="books" data-testid="books">
-              {data.map(book => (
-                <BookItem key={book.isbn} book={book} />
-              ))}
-            </ul>
-          )}
-          {data.length === 0 && (
-            <p className="no-books">No books available!</p>
-          )}
-        </div>
-      )}
+      <div className="container book-list" id="bookListContainer" data-testid="bookListContainer">
+        <h3>Books available:</h3>
+        {!!books.length && (
+          <div data-testid="books" style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '20px',
+            padding: '20px',
+            justifyContent: 'center'
+          }}>
+            {books.map(book => (
+              <Book key={book.isbn} book={book} />
+            ))}
+          </div>
+        )}
+        {books.length === 0 && (
+          <p className="no-books">No books available!</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Library;
+export default Books;

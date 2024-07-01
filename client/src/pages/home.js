@@ -35,7 +35,6 @@ const Home = () => {
 
       <Link to="/books">See all Books | </Link>
       <Link to="/movies"> See all Movies</Link>
-      <p id='authors'>created with ❤ by anabela & barbs</p>
     </div>
       
   );
