@@ -5,9 +5,9 @@ import { BooksPO } from '../page-objects/books.po';
 import { MoviesPO } from '../page-objects/movies.po';
 
 export type PageFixtures = {
-    WhenIOpenBooksPage: PagePO;
-    WhenIOpenMoviesPage: PagePO;
-    WhenIOpenBlipLibrary: PagePO;
+    BooksPage: BooksPO;
+    MoviesPage: MoviesPO;
+    HomePage: PagePO;
 };
 
 type PageProps = {
@@ -15,17 +15,17 @@ type PageProps = {
 };
 
 const test = base.extend<PageFixtures >({
-    WhenIOpenBooksPage: async ({ page }: PageProps, use) => {
+    BooksPage: async ({ page }: PageProps, use) => {
         const booksPagePO = new BooksPO(page); 
         await booksPagePO.openPage();
         await use(booksPagePO);
     },
-    WhenIOpenMoviesPage: async ({ page }: PageProps, use) => {
+    MoviesPage: async ({ page }: PageProps, use) => {
         const moviesPagePO = new MoviesPO(page); 
         await moviesPagePO.openPage();
         await use(moviesPagePO);
     },
-    WhenIOpenBlipLibrary: async ({ page }: PageProps, use) => {
+    HomePage: async ({ page }: PageProps, use) => {
         const homePagePO = new PagePO(page); 
         await homePagePO.openPage();
         await use(homePagePO);
