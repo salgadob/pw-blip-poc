@@ -1,81 +1,63 @@
 import { test, expect } from '@playwright/test';
 
-// TO-DO: ADD FIXTURES
+import { test as testPage } from '../fixtures/page.fixture';
+import { test as testMockPage } from '../fixtures/mock.fixture';
+
+// not using fixures, page objects duplicated, route to api duplicated
 // 3 scenarios - e2e, mock no results, mock 2 results
 
-test('end 2 end journey', async ({ page }) => {
-  await page.goto('http://localhost:3000/books');
+testPage.describe('E2E - Journey', async () => {
+  testPage.describe('When I open the library\'s page', async () => {
+    testPage('Then I should see Blip\'s Library main page', async ({ HomePage, page }) => {
+      test.step('Then I should see a page with Blip\'s Library title', async () => {
+        await expect(page).toHaveTitle("Blip's Library");
+      });
 
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
+      test.step('And I should the page header with expected title', async () => {
+        await expect(HomePage.headerTitle).toContainText("Blip's Library");
+      });
 
-  await expect(page).toHaveTitle("Blip's Library");
-
-  await expect(bookList).toBeVisible();
-
-});
-
-test('scenario: no results', async ({ page }) => {
-  await page.route('http://localhost:3001/api/books', (route) => {
-    route.fulfill({
-        body: JSON.stringify({ "books": [] }),
+      test.step('And I should see the welcome message', async () => {
+        await expect(HomePage.mainContainer).toContainText("Welcome to Blip's library!");
+      });
     });
   });
-  
-  await page.goto('http://localhost:3000/books');
-
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
-  const noBooksMessage = page.locator('.no-books')
-
-  await expect(page).toHaveTitle("Blip's Library");
-
-  await expect(noBooksMessage).toHaveText('No books available!')
-
 });
 
-test('scenario: 2 results', async ({ page }) => {
+testMockPage.describe('Mocking - Journey', async () => {
+  testMockPage.describe('scenario: no books available', async () => {
+    testMockPage.describe('When I open the library\'s books page', async () => {
+      testMockPage('Then I should see no Books Message', async ({ WhenIHaveNoBooks, BooksPage }) => {
+        await expect(BooksPage.noBooksMessage).toHaveText('No books available!')
+      });
+    });    
+  });
 
-  await page.route('http://localhost:3001/api/books', (route) => {
-    route.fulfill({
-        body: JSON.stringify({ "books": [{
-          "isbn": "123",
-          "title": "About Bananas",
-          "subTitle": "the yellow fruit",
-          "author": "Barbara Salgado",
-          "publish_date": "2020-06-04T08:48:39.000Z",
-          "publisher": "Blip QAs Editions",
-          "pages": 22,
-          "description": "a book about bananas",
-          "website": "http://chimera.labs.oreilly.com/books/1230000000561/index.html"
-      },
-      {
-        "isbn": "124",
-        "title": "Peeling cucumbers",
-        "subTitle": "sometimes you have to do it",
-        "author": "Anabela Carvalho",
-        "publish_date": "2020-06-04T08:48:39.000Z",
-        "publisher": "Blip QAs Editions",
-        "pages": 22,
-        "description": "a book about handling situations",
-        "website": "http://chimera.labs.oreilly.com/books/1230000000561/index.html"
-    }] }),
+  testMockPage.describe('scenario: 2 books available', async () => {
+    testMockPage.describe('When I open the library\'s books page', async () => {
+      testMockPage('Then I should see 2 book results', async ({ WhenIHaveTwoBooks, BooksPage }) => {
+          await expect(BooksPage.booksList).toBeVisible();
+          await BooksPage.booksList.screenshot({ path: 'booklist-2results.png' });
+        });
     });
   });
 
-  await page.goto('http://localhost:3000/books');
+  testMockPage.describe('scenario: error page', async () => {
+    testMockPage.describe('When I open the library\'s books page', async () => {  
+      testMockPage('Then I should see error page', async ({ WhenThereIsAnError, BooksPage }) => {
+          await expect(BooksPage.errorContainer).toBeVisible();
+          await BooksPage.errorContainer.screenshot({ path: 'error-message.png' });
+        });
+    });
+  });
 
-  const showBooksButton = page.getByTestId('showBooksButton');
-  const bookList = page.getByTestId('bookListContainer');
-  const books = page.getByTestId('books');
-
-  await expect(page).toHaveTitle("Blip's Library");
-
-  await expect(bookList).toBeVisible();
+  testMockPage.describe('scenario: delayed response page', async () => {
+    testMockPage.describe('When I open the library\'s books page', async () => {
+      testMockPage('Then I should see loading page', async ({ WhenIHaveADelayedResponse, BooksPage }) => {
+          await expect(BooksPage.loading).toBeVisible();
+          await BooksPage.loading.screenshot({ path: 'loading-message.png' });
+      });
+    });
+  });
 
 });
-
-
-

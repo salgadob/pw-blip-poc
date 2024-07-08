@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home';
 import Books from './pages/books';
+import Movies from './pages/movies';
 
 function App() {
   return (
@@ -12,10 +13,13 @@ function App() {
           <nav>
             <ul>
               <li>
-                <Link to="/">Movies</Link>
+                <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink>
               </li>
               <li>
-                <Link to="/books">Books</Link>
+                <NavLink to="/movies" className={({ isActive }) => (isActive ? 'active' : '')}>Movies</NavLink>
+              </li>
+              <li>
+                <NavLink to="/books" className={({ isActive }) => (isActive ? 'active' : '')}>Books</NavLink>
               </li>
             </ul>
           </nav>
@@ -24,8 +28,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/books" element={<Books />} />
+            <Route path="/movies" element={<Movies />} />
           </Routes>
         </main>
+        <p id='authors'>created with ❤ by anabela & barbs</p>
       </div>
     </Router>
   );

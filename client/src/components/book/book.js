@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BookItem = ({ book }) => {
+const Book = ({ book }) => {
   return (
     <div data-testid="bookItem" style={{ 
       border: '1px solid #ccc',
@@ -18,4 +18,4 @@ const BookItem = ({ book }) => {
   );
 };
 
-export default BookItem;
+export default Book;
